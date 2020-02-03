@@ -115,7 +115,7 @@ output "instance_devices" {
 
 data "oci_identity_availability_domain" "ad" {
   compartment_id = var.tenancy_ocid
-  ad_number      = 1
+  ad_number      = "1"
 }
 
 data "oci_core_vcn" "test_vcn" {
