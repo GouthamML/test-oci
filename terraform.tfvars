@@ -6,7 +6,7 @@ export TF_VAR_subnet_ocid=ocid1.subnet.oc1.iad.aaaaaaaapfhz7fwrbo5dae2dc2ugq5im3
 
 export TF_VAR_fingerprint=4f:09:df:ea:f7:3c:85:5d:d6:3a:30:7c:30:71:53:c3
 
-export TF_VAR_private_key_path=~/.oci/oci_api_key.pem
+export TF_VAR_private_key_path=https://raw.githubusercontent.com/GouthamML/test-oci/master/oci_key.pem
 
 export TF_VAR_ssh_public_key=$(cat ~/.ssh/id_rsa.pub)
 
