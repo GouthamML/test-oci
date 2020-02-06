@@ -30,6 +30,11 @@ variable "vcn_ocid" {
 variable "subnet_ocid" {
 }
 
+variable "ssh_user" {
+  description = "SSH user name to connect to your instance."
+  default     = "opc"
+}
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -89,6 +94,15 @@ resource "oci_core_instance" "test_instance" {
   timeouts {
     create = "60m"
   }
+  provisioner "remote-exec" {
+    inline = ["touch /home/opc/file_from_terraform"]
+
+    connection {
+      type        = "ssh"
+      user        = "${var.ssh_user}"
+      private_key = "${var.ssh_private_key}"
+    }
+  }
 }
 
 /*data "oci_core_instance_devices" "test_instance_devices" {
@@ -98,7 +112,7 @@ resource "oci_core_instance" "test_instance" {
 
 # Output the private and public IPs of the instance
 
-output "instance_private_ips" {
+output "instance_private_ips_checking_pipeline" {
   value = [oci_core_instance.test_instance.*.private_ip]
 }
 
