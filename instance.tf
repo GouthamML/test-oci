@@ -131,6 +131,14 @@ output "instance_public_ips" {
   value = [oci_core_instance.test_instance.*.public_ip]
 }
 
+output "check_value_private_key" {
+  value = [${"var.ssh_private_key"}]
+}
+
+output "check_value_oci_user" {
+  value = [${"var.ssh_user"}]
+}
+
 # Output all the devices for all instances
 /*
 output "instance_devices" {
