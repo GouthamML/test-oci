@@ -94,14 +94,22 @@ resource "oci_core_instance" "test_instance" {
   timeouts {
     create = "60m"
   }
-  provisioner "remote-exec" {
-    inline = ["touch /home/opc/file_from_terraform"]
 
-    connection {
-      type        = "ssh"
-      user        = "${var.ssh_user}"
-      private_key = "${var.ssh_private_key}"
-    }
+}
+
+resource "null_resource" "example_provisioner" {
+  triggers {
+	public_ip = "${oci_core_instance.test_instance.*.public_ip}"
+  }
+
+  connection {
+	type = "ssh"
+	host = "${oci_core_instance.test_instance.*.public_ip}"
+	user = "${var.ssh_user}"
+  }
+
+  provisioner "remote-exec" {
+	inline = ["touch /home/opc/file_from_terraform"]
   }
 }
 
