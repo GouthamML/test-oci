@@ -98,7 +98,7 @@ resource "oci_core_instance" "test_instance" {
 }
 
 resource "null_resource" "example_provisioner" {
-  triggers {
+  triggers = {
 	public_ip = "${oci_core_instance.test_instance.*.public_ip}"
   }
 
