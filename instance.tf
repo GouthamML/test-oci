@@ -101,7 +101,7 @@ resource "null_resource" "example_provisioner" {
   /*triggers = {
 	public_ip = "${oci_core_instance.test_instance.*.public_ip}"
   }*/
-
+count = "${var.num_instances}"
   connection {
 	type = "ssh"
 	host = "${oci_core_instance.test_instance.*.public_ip[count.index % var.num_instances]}"
