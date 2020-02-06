@@ -98,13 +98,13 @@ resource "oci_core_instance" "test_instance" {
 }
 
 resource "null_resource" "example_provisioner" {
-  triggers = {
+  /*triggers = {
 	public_ip = "${oci_core_instance.test_instance.*.public_ip}"
-  }
+  }*/
 
   connection {
 	type = "ssh"
-	host = "${oci_core_instance.test_instance.*.public_ip}"
+	host = "${oci_core_instance.test_instance.*.public_ip[count.index % var.num_instances]}"
 	user = "${var.ssh_user}"
   }
 
