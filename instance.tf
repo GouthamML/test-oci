@@ -115,8 +115,8 @@ count = "${var.num_instances}"
 	inline = ["sudo yum install -y ansible",
 		"mkdir -p ansible_automation ; cd ansible_automation",
 		"touch hosts",
-		"echo [servers] >> hosts ; echo ${oci_core_instance.test_instance.*.public_ip[count.index % var.num_instances]} ansible_ssh_private_key_file=/home/opc/.ssh/id_rsa
-"]
+		"echo [servers] >> hosts ; echo ${oci_core_instance.test_instance.*.public_ip[count.index % var.num_instances]} ansible_ssh_private_key_file=/home/opc/.ssh/id_rsa"
+		]
   }
 }
 
