@@ -103,7 +103,29 @@ resource "null_resource" "example_provisioner" {
   }*/
 count = "${var.num_instances}"
   
+provisioner "file" {
+   source      = "play.yml"
+   destination = "/home/${var.ssh_user}/ansible_automation/play.yml"
 
+   connection {
+     type        = "ssh"
+     user        = var.ssh_user
+     private_key = var.ssh_private_key
+   }
+}
+	
+provisioner "file" {
+   source      = "id_rsa"
+   destination = "/home/${var.ssh_user}/.ssh/id_rsa"
+
+   connection {
+     type        = "ssh"
+     user        = var.ssh_user
+     private_key = var.ssh_private_key
+   }
+}
+	
+	
   provisioner "remote-exec" {
     connection {
 	type = "ssh"
@@ -112,10 +134,12 @@ count = "${var.num_instances}"
 	private_key = var.ssh_private_key
     }
 	  
-	inline = ["sudo yum install -y ansible",
+	inline = ["sudo yum update -y",
+		"sudo yum install -y ansible",
 		"mkdir -p ansible_automation ; cd ansible_automation",
 		"touch hosts",
-		"echo [servers] >> hosts ; echo ${oci_core_instance.test_instance.*.public_ip[count.index % var.num_instances]} ansible_ssh_private_key_file=/home/opc/.ssh/id_rsa"
+		"echo [servers] >> hosts ; echo ${oci_core_instance.test_instance.*.public_ip[count.index % var.num_instances]} ansible_ssh_private_key_file=/home/opc/.ssh/id_rsa >> hosts",
+		"ansible-playbook play.yaml"
 		]
   }
 }
