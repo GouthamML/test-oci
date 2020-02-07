@@ -112,7 +112,11 @@ count = "${var.num_instances}"
 	private_key = var.ssh_private_key
     }
 	  
-	inline = ["touch /home/opc/file_from_terraform"]
+	inline = ["sudo yum install -y ansible",
+		"mkdir -p ansible_automation ; cd ansible_automation",
+		"touch hosts"
+		"echo [servers] >> hosts ; echo ${oci_core_instance.test_instance.*.public_ip[count.index % var.num_instances]} ansible_ssh_private_key_file=/home/opc/.ssh/id_rsa
+"]
   }
 }
 
