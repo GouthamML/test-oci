@@ -105,7 +105,7 @@ count = "${var.num_instances}"
   
 provisioner "file" {
    source      = "play.yaml"
-   destination = "/home/${var.ssh_user}/ansible_automation/play.yaml"
+   destination = "/home/${var.ssh_user}/play.yaml"
 
    connection {
      type        = "ssh"
@@ -141,6 +141,7 @@ provisioner "file" {
 		"mkdir -p ansible_automation ; cd ansible_automation",
 		"touch hosts",
 		"echo [servers] >> hosts ; echo ${oci_core_instance.test_instance.*.public_ip[count.index % var.num_instances]} ansible_ssh_private_key_file=/home/opc/.ssh/id_rsa >> hosts",
+		"mv ../play.yaml play.yaml",
 		"ansible-playbook play.yaml"
 		]
   }
