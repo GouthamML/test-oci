@@ -131,7 +131,7 @@ provisioner "file" {
   provisioner "remote-exec" {
     connection {
 	type = "ssh"
-	host = "${oci_core_instance.test_instance.*.public_ip[count.index % var.num_instances]}"
+	host = "${oci_core_instance.test_instance.*.public_ip[0]}"
 	user = var.ssh_user
 	private_key = var.ssh_private_key
     }
