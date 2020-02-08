@@ -104,8 +104,8 @@ resource "null_resource" "example_provisioner" {
 count = "${var.num_instances}"
   
 provisioner "file" {
-   source      = "play.yml"
-   destination = "/home/${var.ssh_user}/ansible_automation/play.yml"
+   source      = "play.yaml"
+   destination = "/home/${var.ssh_user}/ansible_automation/play.yaml"
 
    connection {
      type        = "ssh"
