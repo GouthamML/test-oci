@@ -45,7 +45,7 @@ provider "oci" {
 
 # Defines the number of instances to deploy
 variable "num_instances" {
-  default = "1"
+  default = "2"
 }
 
 variable "instance_shape" {
@@ -109,7 +109,7 @@ provisioner "file" {
 
    connection {
      type        = "ssh"
-     host = "${oci_core_instance.test_instance.*.public_ip[count.index % var.num_instances]}"
+     host = "${oci_core_instance.test_instance.*.public_ip[0]}"
      user        = var.ssh_user
      private_key = var.ssh_private_key
    }
@@ -121,7 +121,7 @@ provisioner "file" {
 
    connection {
      type        = "ssh"
-     host = "${oci_core_instance.test_instance.*.public_ip[count.index % var.num_instances]}"
+     host = "${oci_core_instance.test_instance.*.public_ip[0]}"
      user        = var.ssh_user
      private_key = var.ssh_private_key
    }
@@ -140,7 +140,7 @@ provisioner "file" {
 		"sudo yum install -y ansible",
 		"mkdir -p ansible_automation ; cd ansible_automation",
 		"touch hosts",
-		"echo [servers] >> hosts ; echo ${oci_core_instance.test_instance.*.public_ip[count.index % var.num_instances]} ansible_ssh_private_key_file=/home/opc/.ssh/id_rsa >> hosts",
+		"echo [servers] >> hosts ; echo ${oci_core_instance.test_instance.*.public_ip[1]} ansible_ssh_private_key_file=/home/opc/.ssh/id_rsa >> hosts",
 		"mv ../play.yaml play.yaml",
 		"ansible-playbook play.yaml"
 		]
