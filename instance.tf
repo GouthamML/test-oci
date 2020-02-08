@@ -109,6 +109,7 @@ provisioner "file" {
 
    connection {
      type        = "ssh"
+     host = "${oci_core_instance.test_instance.*.public_ip[count.index % var.num_instances]}"
      user        = var.ssh_user
      private_key = var.ssh_private_key
    }
@@ -120,6 +121,7 @@ provisioner "file" {
 
    connection {
      type        = "ssh"
+     host = "${oci_core_instance.test_instance.*.public_ip[count.index % var.num_instances]}"
      user        = var.ssh_user
      private_key = var.ssh_private_key
    }
