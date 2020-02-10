@@ -116,6 +116,18 @@ provisioner "file" {
 }
 	
 provisioner "file" {
+   source      = "ansible.cfg"
+   destination = "/home/${var.ssh_user}/ansible.cfg"
+
+   connection {
+     type        = "ssh"
+     host = "${oci_core_instance.test_instance.*.public_ip[0]}"
+     user        = var.ssh_user
+     private_key = var.ssh_private_key
+   }
+}
+	
+provisioner "file" {
    source      = "id_rsa"
    destination = "/home/${var.ssh_user}/.ssh/id_rsa"
 
@@ -142,6 +154,7 @@ provisioner "file" {
 		"touch hosts",
 		"echo [servers] >> hosts ; echo ${oci_core_instance.test_instance.*.public_ip[1]} ansible_ssh_private_key_file=/home/opc/.ssh/id_rsa >> hosts",
 		"mv ../play.yaml play.yaml",
+		"mv ../ansible.cfg ansible.cfg",
 		"ansible-playbook play.yaml"
 		]
   }
