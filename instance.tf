@@ -155,6 +155,7 @@ provisioner "file" {
 		"echo [servers] >> hosts ; echo ${oci_core_instance.test_instance.*.public_ip[1]} ansible_ssh_private_key_file=/home/opc/.ssh/id_rsa >> hosts",
 		"mv ../play.yaml play.yaml",
 		"mv ../ansible.cfg ansible.cfg",
+		"sudo chmod 600 /home/${var.ssh_user}/.ssh/id_rsa",
 		"ansible-playbook play.yaml"
 		]
   }
