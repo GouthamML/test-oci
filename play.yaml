@@ -6,6 +6,7 @@
        yum:
          name: httpd
          state: present
+         lock_timeout: 180
      - name: starting the service
        service:
          name: httpd
