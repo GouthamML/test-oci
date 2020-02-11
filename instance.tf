@@ -45,7 +45,7 @@ provider "oci" {
 
 # Defines the number of instances to deploy
 variable "num_instances" {
-  default = "2"
+  default = "3"
 }
 
 variable "instance_shape" {
@@ -158,6 +158,22 @@ provisioner "file" {
 		"sudo chmod 600 /home/${var.ssh_user}/.ssh/id_rsa",
 		"ansible-playbook play.yaml"
 		]
+  }
+
+  provisioner "remote-exec" {
+    connection {
+      type = "ssh"
+      host = "${oci_core_instance.test_instance.*.public_ip[2]}"
+      user = var.ssh_user
+      private_key = var.ssh_private_key
+    }
+
+    inline = ["sudo yum -y update",
+              "sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo",
+              "sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key",
+              "sudo yum -y install jenkins",
+              "sudo service jenkins start"
+    ]
   }
 }
 
