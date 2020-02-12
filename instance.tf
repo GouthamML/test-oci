@@ -49,7 +49,7 @@ variable "num_instances" {
 }
 
 variable "instance_shape" {
-  default = "VM.Standard1.1"
+  default = "VM.Standard2.1"
 }
 
 variable "instance_image_ocid" {
@@ -172,7 +172,9 @@ provisioner "file" {
               "sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo",
               "sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key",
               "sudo yum -y install jenkins",
-              "sudo service jenkins start"
+              "sudo service jenkins start",
+	      "sudo systemctl stop firewalld",
+	      "sudo systemctl disable firewalld"
     ]
   }
 }
